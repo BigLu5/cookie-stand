@@ -39,6 +39,25 @@ const seattle = {
   },
 };
 
+// get the element on the page with the id salesData
+
+const salesData = document.getElementById("salesData");
+
+// add the title for the location
+const seattleTitle = document.createElement("h2");
+seattleH2.textContent = seattle.location;
+salesData.appendChild(seattleH2);
+
+// create a list to show the cookies sold each hour
+
+const seattleUl = document.createElement("ul");
+//loop through our data and for each item create an <li>
+for (let i = 0; i < hours.length; i++) {
+  const li = document.createElement("li");
+  li.textContent = `${hours[i]}: ${seatlle.cookiesPerHour[i]} cookies`;
+  seattleUl.appendChild(li);
+}
+
 const tokyo = {
   location: "tokyo",
   minCust: 3,
