@@ -3,3 +3,9 @@ table {
   padding: 20px;
   border-spacing: 20px;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
