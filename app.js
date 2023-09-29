@@ -78,12 +78,14 @@ CookieStore.prototype.render = function () {
   table.appendChild(tr);
 };
 
-// create our store objects
-const seattle = new CookieStore("Seattle", 23, 65, 6.3);
-const tokyo = new CookieStore("Tokyo", 3, 24, 1.2);
-const dubai = new CookieStore("Dubai", 11, 38, 3.7);
-const paris = new CookieStore("Paris", 20, 38, 2.3);
-const lima = new CookieStore("Lima", 2, 16, 4.6);
+// create our store objects in an array
+const stores = [
+  new CookieStore("Seattle", 23, 65, 6.3),
+  new CookieStore("Tokyo", 3, 24, 1.2),
+  new CookieStore("Dubai", 11, 38, 3.7),
+  new CookieStore("Paris", 20, 38, 2.3),
+  new CookieStore("Lima", 2, 16, 4.6),
+];
 
 // claculate sales for each store (commented out because the calculate sales in the render method)
 // seattle.calculateSales()
@@ -114,11 +116,9 @@ headerRow.appendChild(totalHeading);
 table.appendChild(headerRow);
 
 // render each store on the page
-seattle.render();
-tokyo.render();
-dubai.render();
-paris.render();
-lima.render();
+for (let i = 0; i < stores.length; i++) {
+  stores[i].render();
+}
 
 // get the form dom NODE
 const form = document.querySelector("form");
@@ -143,4 +143,45 @@ form.addEventListener("submit", function (event) {
 
   // render the new store
   newStore.render();
+  renderTotalRow();
 });
+
+// stores need to be in an array
+function renderTotalRow() {
+  const oldTr = document.getElementById("totalrow");
+  oldTr?.remove();
+  // make a new tr
+  const tr = document.createElement("tr");
+  //add a total row heading
+  const th = document.createElement("th");
+  th.textContent = "Hourly Total";
+  tr.appendChild(th);
+  for (let i = 0; i < hours.length; i++) {
+    let hourlyTotal = 0;
+    for (let k = 0; k < stores.length; k++) {
+      hourlyTotal = hourlyTotal + stores[k].cookiesPerHour[i];
+    }
+
+    const td = document.createElement("td");
+    td.textContent = hourlyTotal;
+  }
+
+  table.appendChild(tr);
+}
+
+renderTotalRow();
+
+// const form = document.querySelector("form");
+// const salesDataTable = document.querySelector("#salesData"); //select the existing table with the ID "salesData" using querySelector.
+// form.addEventListener("submit", function (event) {
+// event.preventDefault();
+// const location = event.target.location.value;
+// const newRow = document.createElement("tr"); //create a new table row (newRow) and a table data cell (locationCell) to hold the location data
+// const locationCell = document.createElement("td");
+// locationCell.textContent = location; //set the text content of the locationCell to the location value obtained from the form
+// newRow.appendChild(locationCell); //append the newRow to the existing table with the ID "salesData."
+// salesDataTable.appendChild(newRow);
+// event.target.location.value = ""; //clear the form input field after submission
+// });
+
+//This code captures form submission, prevents the default page refresh behavior, extracts form data, creates a new table row and table data cell, populates the cell with the location data, and appends the row to an existing table in the HTML document.
